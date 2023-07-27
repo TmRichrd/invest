@@ -20,7 +20,7 @@ export default {
       activeName: '0',
       page: {
         currentPage: 1,
-        pageSize: 10,
+        pageSize: 2,
         total: 0
       },
       loading: true,
@@ -115,8 +115,8 @@ export default {
         }
       });
       rechargeWithdraw(page.currentPage, page.pageSize, model).then(res => {
-        this.data = res.data
-        this.page.total = res.total
+        this.data = res.data.list
+        this.page.total = res.data.total
         this.loading = false
       })
     },

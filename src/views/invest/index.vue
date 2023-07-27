@@ -112,7 +112,7 @@ export default {
     onLoad (page, params = {}) {
       this.loading = true
       getInvestList(page.currentPage, page.pageSize, Object.assign(params, this.query)).then(res => {
-        this.data = res.data
+        this.data = res.data.list
         this.page.total = res.data.total
         this.loading = false
       })

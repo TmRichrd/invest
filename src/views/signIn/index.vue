@@ -74,7 +74,7 @@ export default {
     onLoad (page, params = {}) {
       this.loading = true
       getSignIn().then(res => {
-        this.data = res.data
+        this.data = res.data.list
         this.page.total = res.data.total
         this.loading = false
       })
