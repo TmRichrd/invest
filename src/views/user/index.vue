@@ -59,12 +59,13 @@ export default {
       query: {},
       data: [],
       form: {},
-      option1: {
+      option3: {
         size: "large",
         submitText: '充值',
         column: [
           {
-            label: "充值金额",
+            label: "充值USDT",
+            labelWidth: "100",
             prop: "num",
             type: "number",
             min: 1,
@@ -271,12 +272,12 @@ export default {
         title: "充值",
         width: '30%',
         menuPosition: 'right',
-        option: this.option1,
+        option: this.option3,
         beforeClose: (done) => {
           done()
         },
         callback: (res) => {
-          RechargeAdd(0, row.phone, res.data.num).then(res => {
+          RechargeAdd(0, row.phone, res.data.num, 0).then(res => {
             this.$message.success(res.msg)
             res.done()
           }).catch(err => {

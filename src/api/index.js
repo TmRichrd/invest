@@ -53,7 +53,7 @@ export function getInvestList(pageNum, pageSize, params) {
   });
 }
 // 充值
-export function RechargeAdd(type, phone, num) {
+export function RechargeAdd(type, phone, num, status) {
   return request({
     url: "/invest/rechargeWithdraw/add",
     method: "post",
@@ -61,6 +61,7 @@ export function RechargeAdd(type, phone, num) {
       type,
       phone,
       num,
+      status
     },
   });
 }
