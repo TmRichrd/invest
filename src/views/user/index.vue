@@ -7,7 +7,7 @@
         <el-button type="text" @click="handleViewAssets(row)">查看资产</el-button>
       </template>
       <template slot="menu" slot-scope="{row}">
-        <el-button icon="el-icon-lock" type="text" @click="handleRecharge(row)">充值</el-button>
+        <el-button icon="el-icon-s-finance" type="text" @click="handleRecharge(row)">充值</el-button>
         <el-button icon="el-icon-lock" type="text" @click="handleFreeze(row)">冻结资产</el-button>
         <el-button icon="el-icon-edit" type="text">修改密码</el-button>
       </template>
