@@ -100,13 +100,21 @@ export default {
       this.onLoad(this.page, this.query)
     },
     searchChange (params, done) {
+      this.page.currentPage = 1
       this.query = params
       this.onLoad(this.page, this.query)
       done()
     },
     onLoad (page, params = {}) {
       this.loading = true
-      rechargeWithdraw(page.currentPage, page.pageSize, Object.assign(params, this.query)).then(res => {
+      const model = Object.assign(params, this.query)
+      Object.keys(model).forEach(key => {
+        if (model[key] === '')
+        {
+          delete model[key];
+        }
+      });
+      rechargeWithdraw(page.currentPage, page.pageSize, model).then(res => {
         this.data = res.data
         this.page.total = res.total
         this.loading = false

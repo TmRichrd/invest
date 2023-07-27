@@ -104,6 +104,7 @@ export default {
       this.onLoad(this.page, this.query)
     },
     searchChange (params, done) {
+      this.page.currentPage = 1
       this.query = params
       this.onLoad(this.page, this.query)
       done()
