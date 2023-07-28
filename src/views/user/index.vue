@@ -22,6 +22,8 @@
         <el-descriptions-item label="团队奖励">{{ currentRowAssets.teamkNum || 0 }}</el-descriptions-item>
         <el-descriptions-item label="平级奖励">{{ currentRowAssets.rangeNum || 0 }}</el-descriptions-item>
         <el-descriptions-item label="签到奖励">{{ currentRowAssets.checkNum || 0 }}</el-descriptions-item>
+        <el-descriptions-item label="直推人数">{{ currentRowAssets.directPushTotal || 0 }}</el-descriptions-item>
+        <el-descriptions-item label="团队人数">{{ currentRowAssets.teamTotal || 0 }}</el-descriptions-item>
       </el-descriptions>
     </el-dialog>
     <!-- 修改密码 -->
