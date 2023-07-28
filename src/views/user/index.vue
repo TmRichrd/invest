@@ -24,6 +24,7 @@
         <el-descriptions-item label="签到奖励">{{ currentRowAssets.checkNum || 0 }}</el-descriptions-item>
         <el-descriptions-item label="直推人数">{{ currentRowAssets.directPushTotal || 0 }}</el-descriptions-item>
         <el-descriptions-item label="团队人数">{{ currentRowAssets.teamTotal || 0 }}</el-descriptions-item>
+        <el-descriptions-item label="间推人数">{{ currentRowAssets.interpenetrationTotal || 0 }}</el-descriptions-item>
       </el-descriptions>
     </el-dialog>
     <!-- 修改密码 -->

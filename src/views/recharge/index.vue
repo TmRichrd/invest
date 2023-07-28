@@ -7,16 +7,58 @@
     <avue-crud :option="option" :data="data" @search-reset="searchReset" @search-change="searchChange"
       :table-loading="loading" v-model="form" :page.sync="page" :search.sync="query" @on-load="onLoad"
       @refresh-change="refreshChange">
-
+      <template slot="menu" slot-scope="{row}">
+        <el-button type="text" icon="el-icon-s-claim" v-show="row.status == 4" @click="handleEdit(row)">审核</el-button>
+      </template>
     </avue-crud>
+    <el-dialog title="审核" :visible.sync="examineDialog">
+      <avue-form :defaults.sync="defaults" ref="defaultForm" @submit="handleExamine" :option="option1"
+        v-model="defaultForm"></avue-form>
+    </el-dialog>
   </div>
 </template>
 <script>
-import { rechargeWithdraw } from "@/api"
-let _that = this
+
+import { rechargeWithdraw, ExamineStatus } from "@/api"
 export default {
   data () {
     return {
+      row: {},
+      defaults: {},
+      defaultForm: {
+        status: 3,
+        comment: ""
+      },
+      option1: {
+        size: "large",
+        column: [
+          {
+            label: "审核状态",
+            prop: "status",
+            type: "radio",
+            span: 13,
+            rules: [{ required: true, message: "请选择审核状态", trigger: "change" }],
+            dicData: [
+              {
+                label: "审核通过",
+                value: 3
+              },
+              {
+                label: "审核不通过",
+                value: 5
+              }
+            ]
+          },
+          {
+            label: "失败原因",
+            prop: "comment",
+            span: 13,
+            type: "textarea",
+            display: false,
+          }
+        ]
+      },
+      examineDialog: false,
       activeName: '0',
       page: {
         currentPage: 1,
@@ -30,6 +72,17 @@ export default {
       },
       data: [],
       form: {},
+    }
+  },
+  watch: {
+    'defaultForm.status' (val) {
+      if (val == 3)
+      {
+        this.defaults.comment.display = false
+      } else
+      {
+        this.defaults.comment.display = true
+      }
     }
   },
   computed: {
@@ -51,7 +104,7 @@ export default {
         columnBtn: false,
         editBtn: false,
         delBtn: false,
-        menu: false,
+        menu: this.query.type == 0 ? false : true,
         column: [
           {
             label: "用户id",
@@ -59,17 +112,12 @@ export default {
           },
           {
             label: "用户名",
-            prop: "name"
-          },
-          {
-            hide: true,
-            label: "手机号",
             prop: "phone",
             search: true
           },
           {
-            label: this.query.type == 0 ? '充值账号' : '提币账号',
-            prop: "address"
+            label: this.query.type == 0 ? '充值人' : '提币账号',
+            prop: "updateName"
           },
           {
             label: this.query.type == 0 ? '已充值金额' : '提币数量',
@@ -84,7 +132,7 @@ export default {
             prop: "statusValue"
           },
           {
-            label: "备注",
+            label: "失败原因",
             prop: "comment"
           }
         ]
@@ -92,6 +140,43 @@ export default {
     }
   },
   methods: {
+    // 审核
+    handleExamine (form, done) {
+      const model = {
+        ...this.row,
+        status: form.status,
+        comment: form.comment
+      }
+      ExamineStatus(model).then(res => {
+        if (res.code == 200)
+        {
+          this.$message.success(res.msg)
+        } else
+        {
+          this.$message.error(res.msg)
+        }
+      }).finally(() => {
+        done()
+        this.handleClose()
+        this.onLoad(this.page, this.query)
+      })
+    },
+    handleClose () {
+      this.examineDialog = false
+      this.$refs.defaultForm.resetFields()
+      this.row = {}
+    },
+    handleEdit (row) {
+      const model = {
+        id: row.id,
+        userId: row.userId,
+        num: row.num,
+        type: row.type,
+        address: row.address
+      }
+      this.examineDialog = true
+      this.row = model
+    },
     searchReset () {
       this.query = {};
       this.onLoad(this.page);

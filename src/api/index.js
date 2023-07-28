@@ -61,7 +61,7 @@ export function RechargeAdd(type, phone, num, status) {
       type,
       phone,
       num,
-      status
+      status,
     },
   });
 }
@@ -90,6 +90,15 @@ export function updatePassword(data) {
 export function updatePayPassword(data) {
   return request({
     url: "/invest/userInfo/updatePayPwd",
+    method: "post",
+    data,
+  });
+}
+
+// 审核
+export function ExamineStatus(data) {
+  return request({
+    url: "/invest/rechargeWithdraw/edit",
     method: "post",
     data,
   });
